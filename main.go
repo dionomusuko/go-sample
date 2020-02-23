@@ -1,6 +1,7 @@
 package main
 
+import "github.com/dionomusuko/sample-app/infrastructure"
+
 func main() {
-	router := newRouter()
-	router.Logger.Fatal(router.Start(":8080"))
+	infrastructure.Init()
 }
