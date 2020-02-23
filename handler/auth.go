@@ -1,11 +1,13 @@
 package handler
 
 import (
-	"github.com/dgrijalva/jwt-go"
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
 	"net/http"
 	"time"
+
+	"github.com/dgrijalva/jwt-go"
+	"github.com/dionomusuko/sample-app/model"
+	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 )
 
 type jwtCustomClaims struct {

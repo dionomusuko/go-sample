@@ -1,13 +1,14 @@
 package handler
 
 import (
-	"github.com/dionomusuko/sample-app/model"
-	"github.com/labstack/echo"
 	"net/http"
 	"strconv"
+
+	"github.com/dionomusuko/sample-app/model"
+	"github.com/labstack/echo"
 )
 
-func Addtodo(c echo.Context) error {
+func AddTodo(c echo.Context) error {
 	todo := new(model.Todo)
 	if err := c.Bind(todo); err != nil {
 		return err
@@ -31,9 +32,9 @@ func Addtodo(c echo.Context) error {
 	return c.JSON(http.StatusCreated, todo)
 }
 
-func Gettodos(c echo.Context) error {
+func GetTodos(c echo.Context) error {
 	uid := userIDFromToken(c)
-	if user := model.FindUser(&model.User{UID: uid}); user.ID == 0 {
+	if user := model.FindUser(&model.User{ID: uid}); user.ID == 0 {
 		return echo.ErrNotFound
 	}
 
