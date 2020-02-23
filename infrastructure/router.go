@@ -1,12 +1,12 @@
-package main
+package infrastructure
 
 import (
-	"github.com/dionomusuko/sample-app/handler"
+	"github.com/dionomusuko/sample-app/infrastructure/handler"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 )
 
-func newRouter() *echo.Echo {
+func Init() {
 	e := echo.New()
 
 	e.Use(middleware.Logger())
@@ -28,5 +28,5 @@ func newRouter() *echo.Echo {
 	api.DELETE("todos/:id", handler.DeleteTodo)
 	api.PUT("todos/:id/completed", handler.UpdateTodo)
 
-	return e
+	e.Logger.Fatal(e.Start(":3000"))
 }
