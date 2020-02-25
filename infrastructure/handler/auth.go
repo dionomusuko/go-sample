@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/dionomusuko/sample-app/model"
+	"github.com/dionomusuko/go-sample/model"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 )
@@ -29,17 +29,27 @@ func Signup(c echo.Context) error {
 		return err
 	}
 
-	if user.Name == "" || user.Password == "" {
+	if user.Name == "" {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
-			Message: "incorrect name or password",
+			Message: "name field is blank",
+		}
+	} else if user.Password == "" {
+		return &echo.HTTPError{
+			Code:    http.StatusBadRequest,
+			Message: "password field is blank",
+		}
+	} else if user.Email == "" {
+		return &echo.HTTPError{
+			Code:    http.StatusBadRequest,
+			Message: "email field is blank",
 		}
 	}
 
-	if u := model.FindUser(&model.User{Name: user.Name}); u.ID != 0 {
+	if u := model.FindUser(&model.User{Email: user.Email}); u.ID != 0 {
 		return &echo.HTTPError{
 			Code:    http.StatusConflict,
-			Message: "name already exists",
+			Message: "email already exists",
 		}
 	}
 

@@ -1,7 +1,7 @@
 package infrastructure
 
 import (
-	"github.com/dionomusuko/sample-app/infrastructure/handler"
+	"github.com/dionomusuko/go-sample/infrastructure/handler"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 )
