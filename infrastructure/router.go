@@ -19,14 +19,14 @@ func Init() {
 	e.POST("sign-up", handler.Signup)
 	e.File("/sign-in", "public/sign-in")
 	e.POST("/sing-in", handler.Login)
-	e.File("todos", "public/todos")
+	e.File("tasks", "public/tasks")
 
 	api := e.Group("/api")
 	api.Use(middleware.JWTWithConfig(handler.Config))
-	api.GET("/todos", handler.GetTodos)
-	api.POST("/todos", handler.AddTodo)
-	api.DELETE("todos/:id", handler.DeleteTodo)
-	api.PUT("todos/:id/completed", handler.UpdateTodo)
+	api.GET("/tasks", handler.GetTasks)
+	api.POST("/tasks", handler.AddTask)
+	api.DELETE("tasks/:id", handler.DeleteTask)
+	api.PUT("tasks/:id/completed", handler.UpdateTask)
 
 	e.Logger.Fatal(e.Start(":3000"))
 }
