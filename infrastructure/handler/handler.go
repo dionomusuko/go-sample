@@ -8,13 +8,13 @@ import (
 	"github.com/labstack/echo"
 )
 
-func AddTodo(c echo.Context) error {
-	todo := new(model.Todo)
-	if err := c.Bind(todo); err != nil {
+func AddTask(c echo.Context) error {
+	task := new(model.Task)
+	if err := c.Bind(task); err != nil {
 		return err
 	}
 
-	if todo.Name == "" {
+	if task.Menu == "" {
 		return &echo.HTTPError{
 			Code:    http.StatusBadRequest,
 			Message: "text message is blank",
@@ -26,58 +26,58 @@ func AddTodo(c echo.Context) error {
 		return echo.ErrNotFound
 	}
 
-	todo.UID = uid
-	model.CreateTodo(todo)
+	task.UID = uid
+	model.CreateTask(task)
 
-	return c.JSON(http.StatusCreated, todo)
+	return c.JSON(http.StatusCreated, task)
 }
 
-func GetTodos(c echo.Context) error {
+func GetTasks(c echo.Context) error {
 	uid := userIDFromToken(c)
 	if user := model.FindUser(&model.User{ID: uid}); user.ID == 0 {
 		return echo.ErrNotFound
 	}
 
-	todos := model.FindTodos(&model.Todo{UID: uid})
-	return c.JSON(http.StatusOK, todos)
+	tasks := model.FindTasks(&model.Task{UID: uid})
+	return c.JSON(http.StatusOK, tasks)
 }
 
-func DeleteTodo(c echo.Context) error {
+func DeleteTask(c echo.Context) error {
 	uid := userIDFromToken(c)
 	if user := model.FindUser(&model.User{ID: uid}); user.ID == 0 {
 		return echo.ErrNotFound
 	}
 
-	todoID, err := strconv.Atoi(c.Param("id"))
+	taskID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return echo.ErrNotFound
 	}
 
-	if err := model.DeleteTodo(&model.Todo{ID: todoID, UID: uid}); err != nil {
+	if err := model.DeleteTask(&model.Task{ID: taskID, UID: uid}); err != nil {
 		return echo.ErrNotFound
 	}
 
 	return c.NoContent(http.StatusNoContent)
 }
 
-func UpdateTodo(c echo.Context) error {
+func UpdateTask(c echo.Context) error {
 	uid := userIDFromToken(c)
 	if user := model.FindUser(&model.User{ID: uid}); user.ID == 0 {
 		return echo.ErrNotFound
 	}
 
-	todoID, err := strconv.Atoi(c.Param("id"))
+	taskID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return echo.ErrNotFound
 	}
 
-	todos := model.FindTodos(&model.Todo{ID: todoID, UID: uid})
-	if len(todos) == 0 {
+	tasks := model.FindTasks(&model.Task{ID: taskID, UID: uid})
+	if len(tasks) == 0 {
 		return echo.ErrNotFound
 	}
-	todo := todos[0]
-	todo.Completed = !todos[0].Completed
-	if err := model.UpdateTodo(&todo); err != nil {
+	task := tasks[0]
+	//task.Completed = !tasks[0].Completed
+	if err := model.UpdateTask(&task); err != nil {
 		return echo.ErrNotFound
 	}
 

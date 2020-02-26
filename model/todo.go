@@ -4,39 +4,41 @@ import (
 	"fmt"
 )
 
-type Todo struct {
-	UID       int    `json:"uid"`
-	ID        int    `json:"id" gorm:"primary_key"`
-	Name      string `json:"name"`
-	Completed bool   `json:"completed"`
+type Task struct {
+	UID  int    `json:"uid"`
+	ID   int    `json:"id" gorm:"primary_key"`
+	Menu string `json:"menu"`
+	Rep  int    `json:"rep"`
+	Set  int    `json:"set"`
 }
 
-type Todos []Todo
+type Tasks []Task
 
-func CreateTodo(todo *Todo) {
-	db.Create(todo)
+func CreateTask(task *Task) {
+	db.Create(task)
 }
 
-func FindTodos(t *Todo) Todos {
-	var todos Todos
-	db.Where(t).Find(&todos)
-	return todos
+func FindTasks(t *Task) Tasks {
+	var tasks Tasks
+	db.Where(t).Find(&tasks)
+	return tasks
 }
 
-func DeleteTodo(t *Todo) error {
-	if rows := db.Where(t).Delete(&Todo{}).RowsAffected; rows == 0 {
-		return fmt.Errorf("Could not find Todo (%v) to delete", t)
+func DeleteTask(t *Task) error {
+	if rows := db.Where(t).Delete(&Task{}).RowsAffected; rows == 0 {
+		return fmt.Errorf("Could not find Task (%v) to delete", t)
 	}
 	return nil
 }
 
-func UpdateTodo(t *Todo) error {
+func UpdateTask(t *Task) error {
 	rows := db.Model(t).Update(map[string]interface{}{
-		"name":      t.Name,
-		"completed": t.Completed,
+		"menu": t.Menu,
+		"set":  t.Set,
+		"rep":  t.Rep,
 	}).RowsAffected
 	if rows == 0 {
-		return fmt.Errorf("Could not find Todo (%v) to update", t)
+		return fmt.Errorf("Could not find Task (%v) to update", t)
 	}
 	return nil
 }
