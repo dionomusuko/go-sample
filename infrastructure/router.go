@@ -15,11 +15,11 @@ func Init() {
 	e.Static("/assets", "public/assets")
 
 	e.File("/", "public/index.html")
-	e.File("/sign-up", "public/sign-up.html")
+	e.File("/sign-up", "public/signup.html")
 	e.POST("sign-up", handler.Signup)
-	e.File("/sign-in", "public/sign-in")
+	e.File("/sign-in", "public/login.html")
 	e.POST("/sing-in", handler.Login)
-	e.File("tasks", "public/tasks")
+	e.File("/tasks", "public/tasks.html")
 
 	api := e.Group("/api")
 	api.Use(middleware.JWTWithConfig(handler.Config))
